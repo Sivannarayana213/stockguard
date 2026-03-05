@@ -1,0 +1,9 @@
+# Local env and secrets (do not commit)
+.env
+.env.local
+.env.*.local
+**/application-local.properties
+
+# OS and editors
+.DS_Store
+Thumbs.db
