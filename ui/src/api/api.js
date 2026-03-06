@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const api = axios.create({
-  baseURL:"https://stockguard-production-19c2.up.railway.app"
+  baseURL: "https://stockguard-production-19c2.up.railway.app",
 });
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");

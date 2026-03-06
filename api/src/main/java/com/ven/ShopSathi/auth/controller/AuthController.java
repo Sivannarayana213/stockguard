@@ -20,21 +20,23 @@ public class AuthController {
     
     @PostMapping("/signup")
     public AuthResponse signup(@RequestBody AuthRequest request){
-        String token = authService.signup(request);
-        return new AuthResponse(token, request.getEmail());
+        var result = authService.signup(request);
+        return new AuthResponse(result.token(), result.email(), result.userId());
     }
   
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest request)
     {
-        String token = authService.login(request);
-        return new AuthResponse(token, request.getEmail());
+        var result = authService.login(request);
+        return new AuthResponse(result.token(),
+         result.email(),
+         result.userId());
     }
 
     @PostMapping("/google")
     public AuthResponse loginWithGoogle(@RequestBody GoogleLoginRequest request) {
         AuthService.GoogleLoginResult result = authService.loginWithGoogle(request.getCredential());
-        return new AuthResponse(result.token(), result.email());
+        return new AuthResponse(result.token(), result.email(), result.userId());
     }
 
     public static class GoogleLoginRequest {

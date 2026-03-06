@@ -25,9 +25,10 @@ export default function RegisterPage({ onLogin }) {
       // 1. Call Backend Signup
       const response = await api.post("/auth/signup", formData);
 
-      // 2. Store Token
+      // 2. Store Token and User ID
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("email", formData.email);
+      localStorage.setItem("userId", response.data.userId);
 
       // 3. Update App State & Redirect
       onLogin(formData.email);
