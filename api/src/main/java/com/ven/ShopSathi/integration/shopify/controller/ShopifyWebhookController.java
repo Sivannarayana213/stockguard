@@ -3,11 +3,9 @@ package com.ven.ShopSathi.integration.shopify.controller;
 import com.ven.ShopSathi.inventory.service.InventoryService;
 import com.ven.ShopSathi.integration.shopify.security.ShopifyHmacValidator;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
