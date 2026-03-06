@@ -119,7 +119,7 @@ public class IntegrationController {
 
         oAuthService.exchangeCodeForToken(shop, code, userId);
 
-        return new RedirectView(frontendUrl + "/dashboard");
+        return new RedirectView(frontendUrl + "/shopify-success?shop=" + shop);
     }
 
     private void validateShop(String shop) {
