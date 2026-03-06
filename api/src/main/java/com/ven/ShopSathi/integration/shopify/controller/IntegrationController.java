@@ -46,7 +46,7 @@ public class IntegrationController {
         }
 
         String encodedShop = URLEncoder.encode(normalizedShop, StandardCharsets.UTF_8);
-        return new RedirectView("/api/integrations/shopify/connect?shop=" + encodedShop + "&userId=1");
+        return new RedirectView(frontendUrl + "/install?shop=" + encodedShop);
     }
 
     private String normalizeShopDomain(String shop) {
