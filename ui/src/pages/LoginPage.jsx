@@ -20,6 +20,7 @@ export default function LoginPage({ onLogin }) {
       const res = await api.post("/auth/google", { credential: response.credential });
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("email", res.data.email || "");
+      localStorage.setItem("userId", res.data.userId);
       onLogin(res.data.email || "");
       navigate("/dashboard");
     } catch (err) {
@@ -91,6 +92,8 @@ export default function LoginPage({ onLogin }) {
       // Store token and user info
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("email", email);
+
+      localStorage.setItem("userId", response.data.userId);
 
       // Call onLogin callback
       onLogin(email);

@@ -16,27 +16,4 @@ public class ShopSathiApplication {
         SpringApplication.run(ShopSathiApplication.class, args);
     }
 
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-
-    // Shopify-compatible CORS configuration
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins(
-                            "https://admin.shopify.com",
-                            "https://*.myshopify.com",
-                            "https://stockguard-production-19c2.up.railway.app"
-                        )
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*")
-                        .allowCredentials(true);
-            }
-        };
-    }
 }

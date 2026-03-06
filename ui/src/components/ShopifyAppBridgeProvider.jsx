@@ -7,21 +7,17 @@ export default function ShopifyAppBridgeProvider({ children }) {
   const shop = params.get("shop");
   const host = params.get("host");
 
-  const apiKey = import.meta.env.VITE_SHOPIFY_API_KEY;
+  const apiKey = import.meta.env.VITE_SHOPIFY_API_KEY || "your-shopify-client-id";
 
-  // 🚨 Hard stop if API key missing
-  if (!apiKey) {
-    return (
-      <div style={{ padding: "2rem", textAlign: "center" }}>
-        <h2>❌ Shopify API Key Missing</h2>
-        <p>Check Vercel environment variable:</p>
-        <code>VITE_SHOPIFY_API_KEY</code>
-      </div>
-    );
-  }
-
-  // 🚨 If opened outside Shopify Admin
+  // 🚨 If opened outside Shopify Admin (local development)
   if (!shop || !host) {
+    // For local development, render children without AppBridge
+    if (window.location.hostname === "localhost") {
+      console.log("Local development: Rendering without Shopify AppBridge");
+      return children;
+    }
+    
+    // For production, show proper error
     return (
       <div style={{ padding: "2rem", textAlign: "center" }}>
         <h2>⚠️ Open App From Shopify Admin</h2>

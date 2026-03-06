@@ -2,13 +2,14 @@ package com.ven.ShopSathi.auth.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -23,73 +24,83 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
+
+            // ✅ CORS
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+
+            // ✅ CSRF OFF (required for APIs + Shopify OAuth)
             .csrf(csrf -> csrf.disable())
 
-              .headers(headers -> headers
-                .frameOptions(frame -> frame
-                    .sameOrigin())
-                .contentSecurityPolicy(csp -> csp
-        .policyDirectives("frame-ancestors 'self' https://admin.shopify.com https://*.myshopify.com https://stockguard-production-19c2.up.railway.app")
-    )
-)
+            // ✅ No sessions (JWT app)
+            .sessionManagement(session ->
+                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
 
-            // CRITICAL: disable default Spring Security login
+            // ✅ Disable default login
             .httpBasic(basic -> basic.disable())
             .formLogin(form -> form.disable())
 
-            // stateless session (required for JWT)
-            .sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            )
-
+            // ✅ ROUTE SECURITY
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                    "/auth/**",
-                    "/swagger/**",
-                    "/v3/api-docs/**",
-                    "/api/integrations/**",
-                    "/api/webhooks/**"
-                ).permitAll()
-                .anyRequest().authenticated()
+
+                    // 🔥 PUBLIC ROUTES (NO LOGIN NEEDED)
+
+                    // Auth
+                    .requestMatchers("/auth/**").permitAll()
+
+                    // Shopify OAuth
+                    .requestMatchers("/api/integrations/shopify/connect").permitAll()
+                    .requestMatchers("/api/integrations/shopify/callback").permitAll()
+
+                    // Shopify webhooks
+                    .requestMatchers("/api/webhooks/**").permitAll()
+
+                    // Swagger (optional)
+                    .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+
+                    // 🔒 EVERYTHING ELSE NEEDS LOGIN
+                    .anyRequest().authenticated()
             );
 
         return http.build();
     }
 
+    // PASSWORD ENCODER
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // REST TEMPLATE (for Shopify OAuth)
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
+    // CORS CONFIG (FRONTEND + SHOPIFY)
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
-        CorsConfiguration configuration = new CorsConfiguration();
+        CorsConfiguration config = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of(
-            "https://stockguard-rouge.vercel.app",
-            "https://admin.shopify.com",
-            "https://stockguard-production-19c2.up.railway.app",
-            "https://*.myshopify.com"
+        config.setAllowedOrigins(List.of(
+                "https://stockguard-theta.vercel.app",          // React
+                "https://admin.shopify.com",      // Shopify admin
+                "https://*.myshopify.com"         // Shopify stores
         ));
 
-        configuration.setAllowedMethods(List.of(
-            "GET", "POST", "PUT", "DELETE", "OPTIONS"
+        config.setAllowedMethods(List.of(
+                "GET", "POST", "PUT", "DELETE", "OPTIONS"
         ));
 
-        configuration.setAllowedHeaders(List.of("*"));
-
-        configuration.setAllowCredentials(true);
-
-        configuration.setExposedHeaders(List.of("Authorization"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source =
-            new UrlBasedCorsConfigurationSource();
+                new UrlBasedCorsConfigurationSource();
 
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", config);
 
         return source;
     }
 }
-

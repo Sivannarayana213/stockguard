@@ -7,5 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class AuthResponse {
     private String token;
-    private String email; // optional; set for Google login so UI can display it
+    private String email;
+    private Long userId;// optional; set for Google login so UI can display it
 }

@@ -52,47 +52,162 @@ export default function StockGuardLandingDemo() {
         </div>
       </nav>
 
-     <section style={styles.hero}>
-  <h1>Stop Losing Money on Out-of-Stock Ads</h1>
-  <p>Shopify brands waste ₹20,000–₹80,000/month running ads for sold-out products. StockGuard pauses them automatically.</p>
+      {/* HERO SECTION */}
+      <section style={styles.hero}>
+        <div style={styles.heroContent}>
+          <h1 style={styles.heroTitle}>
+            Stop Wasting Ad Spend On Out Of Stock Products
+          </h1>
+          <p style={styles.heroSubtitle}>
+            Automatically pause ad campaigns when inventory runs low. Protect your budget, increase ROI.
+          </p>
+          <p style={styles.heroTrialText}>
+            Start your <strong>14-day free trial</strong>. No credit card required. Cancel anytime.
+          </p>
+          <button style={styles.heroCta}onClick={()=> navigate("/register")}>
+            Start 14 Day Free Trial →
+          </button>
+          <p style={styles.trustText}>
+            ✓ 200+ merchants already protecting their ad spend
+          </p>
+        </div>
+      </section>
 
-  <button style={styles.cta}>Join Founders Plan – ₹999 Lifetime</button>
+      {/* LIVE DEMO STATS */}
+      <section style={styles.statsSection}>
+        <div style={styles.statsContainer}>
+          <h2 style={styles.sectionTitle}>Real Numbers From Our Platform</h2>
+          <div style={styles.statsGrid}>
+            <div style={styles.statCard}>
+              <div style={styles.statNumber}>₹{(stats.saved / 1000).toFixed(0)}K</div>
+              <p style={styles.statLabel}>Ad Spend Protected This Month</p>
+              <div style={styles.statTrendUp}>↑ 24% vs last month</div>
+            </div>
+            <div style={styles.statCard}>
+              <div style={styles.statNumber}>{stats.paused}</div>
+              <p style={styles.statLabel}>Campaigns Auto-Paused Today</p>
+              <div style={styles.statTrendUp}>⚡ Real-time protection</div>
+            </div>
+            <div style={styles.statCard}>
+              <div style={styles.statNumber}>{stats.protected}</div>
+              <p style={styles.statLabel}>Products Being Protected</p>
+              <div style={styles.statTrendUp}>🎯 Across all channels</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-  <p style={styles.small}>Limited to first 20 stores.</p>
-</section>
+      {/* FEATURES SECTION */}
+      <section style={styles.featuresSection}>
+        <div style={styles.featuresContainer}>
+          <h2 style={styles.sectionTitle}>How StockGuard Works</h2>
+          <p style={styles.sectionSubtitle}>
+            Three steps to protect your ad budget
+          </p>
 
-<section>
-  <h2>This Happens Every Week</h2>
-  <ul>
-    <li>Ads keep running after stock finishes</li>
-    <li>Teams notice too late</li>
-    <li>Budget burns on useless clicks</li>
-    <li>Manual monitoring fails at scale</li>
-  </ul>
-</section>
+          <div style={styles.featureGrid}>
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                style={{
+                  ...styles.featureCard,
+                  ...(activeFeature === index && styles.featureCardActive)
+                }}
+                onMouseEnter={() => setActiveFeature(index)}
+              >
+                <div style={styles.featureIcon}>{feature.icon}</div>
+                <h4 style={styles.featureTitle}>{feature.title}</h4>
+                <p style={styles.featureDescription}>{feature.description}</p>
+                <div style={styles.featureNumber}>0{index + 1}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-<section>
-  <h2>How StockGuard Works</h2>
-  <ol>
-    <li>Connect Shopify</li>
-    <li>Connect Meta Ads</li>
-    <li>Auto-pause when stock hits zero</li>
-  </ol>
-</section>
+      {/* BENEFITS SECTION */}
+      <section style={styles.benefitsSection}>
+        <div style={styles.benefitsContainer}>
+          <h2 style={styles.sectionTitle}>Why Merchants Love StockGuard</h2>
+          <div style={styles.benefitsList}>
+            <div style={styles.benefitItem}>
+              <span style={styles.checkmark}>✓</span>
+              <div>
+                <h4 style={styles.benefitTitle}>Save Man-Hours</h4>
+                <p style={styles.benefitText}>No more manual campaign management. Automation handles pauses 24/7.</p>
+              </div>
+            </div>
+            <div style={styles.benefitItem}>
+              <span style={styles.checkmark}>✓</span>
+              <div>
+                <h4 style={styles.benefitTitle}>Reduce Wasted Spend</h4>
+                <p style={styles.benefitText}>Stop paying for clicks on products you can't sell. Immediate ROI.</p>
+              </div>
+            </div>
+            <div style={styles.benefitItem}>
+              <span style={styles.checkmark}>✓</span>
+              <div>
+                <h4 style={styles.benefitTitle}>Complete Visibility</h4>
+                <p style={styles.benefitText}>Know exactly which campaigns are paused and how much you saved.</p>
+              </div>
+            </div>
+            <div style={styles.benefitItem}>
+              <span style={styles.checkmark}>✓</span>
+              <div>
+                <h4 style={styles.benefitTitle}>Works With Your Tools</h4>
+                <p style={styles.benefitText}>Syncs with Shopify, Google Ads, Facebook Ads, and more.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-<section>
-  <h2>Founders Plan</h2>
-  <h3>₹999 Lifetime</h3>
+      {/* PRICING HINT */}
+      <section style={styles.pricingSection}>
+        <h2 style={styles.sectionTitle}>Simple, Transparent Pricing</h2>
+        <div style={styles.pricingGrid}>
+          <div style={styles.pricingCard}>
+            <h4 style={styles.pricingName}>Starter</h4>
+            <p style={styles.pricingPrice}>₹0<span style={styles.pricingPeriod}>/mo first 14 days</span></p>
+            <p style={styles.pricingFeature}>• Up to 25 campaigns</p>
+            <p style={styles.pricingFeature}>• Basic reports</p>
+            <button style={styles.primaryBtn}>Start Free Trial</button>
+          </div>
+          <div style={{ ...styles.pricingCard, ...styles.pricingCardPopular }}>
+            <div style={styles.popularBadge}>Most Popular</div>
+            <h4 style={styles.pricingName}>Professional</h4>
+            <p style={styles.pricingPrice}>₹999<span style={styles.pricingPeriod}>/mo</span></p>
+            <p style={styles.pricingFeature}>• Unlimited campaigns</p>
+            <p style={styles.pricingFeature}>• Advanced analytics</p>
+            <p style={styles.pricingFeature}>• Priority support</p>
+            <button style={{ ...styles.primaryBtn, ...styles.primaryBtnLarge }}>Start Free Trial</button>
+          </div>
+          <div style={styles.pricingCard}>
+            <h4 style={styles.pricingName}>Enterprise</h4>
+            <p style={styles.pricingPrice}>Custom</p>
+            <p style={styles.pricingFeature}>• Everything in Pro</p>
+            <p style={styles.pricingFeature}>• Custom integrations</p>
+            <p style={styles.pricingFeature}>• Dedicated support</p>
+            <button style={styles.secondaryBtn}>Talk to Sales</button>
+          </div>
+        </div>
+      </section>
 
-  <ul>
-    <li>Unlimited campaigns</li>
-    <li>Meta + Google Ads support</li>
-    <li>Early feature access</li>
-    <li>Private founder group</li>
-  </ul>
-
-  <button style={styles.cta}>Secure Early Access</button>
-</section>
+      {/* FINAL CTA */}
+      <section style={styles.finalCta}>
+        <div style={styles.finalCtaContent}>
+          <h2 style={styles.finalCtaTitle}>Ready To Stop Losing Money?</h2>
+          <p style={styles.finalCtaSubtitle}>
+            Start protecting your ad budget today. 14 days free. No credit card.
+          </p>
+          <button style={styles.heroCtaLarge}>
+            Start 14 Day Free Trial →
+          </button>
+          <p style={styles.finalCtaSmall}>
+            Most users see ROI within the first week.
+          </p>
+        </div>
+      </section>
 
       {/* FOOTER */}
       <footer style={styles.footer}>

@@ -85,7 +85,7 @@ stockguard/
    ```
 
 4. **Access API Documentation**
-   - Open: `http://localhost:8080/swagger-ui.html`
+   - Open: `https://stockguard-production-19c2.up.railway.app/swagger-ui.html`
 
 ### Frontend Setup
 
@@ -105,7 +105,7 @@ stockguard/
    ```
 
 4. **Access the application**
-   - Open: `http://localhost:5173`
+   - Open: `https://stockguard-theta.vercel.app`
 
 ## 📊 API Endpoints
 
@@ -147,7 +147,7 @@ automation.stock.threshold=10
 
 ### Environment Variables (Frontend)
 ```env
-VITE_API_BASE_URL=http://localhost:8080
+VITE_API_BASE_URL=https://stockguard-production-19c2.up.railway.app
 ```
 
 ## 🔄 Automation Logic

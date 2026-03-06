@@ -36,7 +36,7 @@ public class ShopifyOAuthService {
     /**
      * 🔥 Exchange authorization code for access token
      */
-    public void exchangeCodeForToken(String shop, String code) {
+    public void exchangeCodeForToken(String shop, String code,Long userId) {
 
         validateShopDomain(shop);
 
@@ -81,7 +81,7 @@ public class ShopifyOAuthService {
                 throw new IllegalStateException("Invalid access token received");
             }
 
-            saveStoreConnection(shop, accessToken);
+            saveStoreConnection(shop, accessToken, userId);
 
             // Register webhook
             webhookService.registerInventoryWebhook(shop, accessToken);
@@ -109,18 +109,20 @@ public class ShopifyOAuthService {
     /**
      * 🔥 Save or update store connection
      */
-    private void saveStoreConnection(String shop, String accessToken) {
+    private void saveStoreConnection(String shop, String accessToken, Long userId) {
 
-        StoreConnection store =
-                storeRepo.findByShopDomain(shop)
-                        .orElse(new StoreConnection());
+    StoreConnection store =
+            storeRepo.findByShopDomain(shop)
+                    .orElse(new StoreConnection());
 
-        store.setShopDomain(shop);
-        store.setAccessToken(accessToken);
-        store.setConnected(true);
+    store.setShopDomain(shop);
+    store.setAccessToken(accessToken);
+    store.setConnected(true);
 
-        storeRepo.save(store);
-    }
+    store.setUserId(userId);   // 🔥🔥🔥 THIS IS THE FIX
+
+    storeRepo.save(store);
+}
 
     /**
      * 🔥 Initial product sync
