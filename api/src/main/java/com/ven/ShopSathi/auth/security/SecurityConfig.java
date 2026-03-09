@@ -83,7 +83,8 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOrigins(List.of(
-                "https://stockguard-theta.vercel.app",          // React
+                "https://stockguard-theta.vercel.app",          // React (Vercel)
+                "https://stockguard-production-19c2.up.railway.app", // Railway production
                 "https://admin.shopify.com",      // Shopify admin
                 "https://*.myshopify.com"         // Shopify stores
         ));

@@ -28,7 +28,7 @@ public class IntegrationController {
     @Value("${shopify.scopes}")
     private String scopes;
 
-    @Value("${app.frontend.url:https://stockguard-theta.vercel.app}")
+    @Value("${app.frontend.url:https://stockguard-production-19c2.up.railway.app}")
     private String frontendUrl;
 
     // ENTRY POINT: Shopify App Installation
@@ -68,9 +68,14 @@ public class IntegrationController {
     // STEP 1: CONNECT
     @GetMapping("/connect")
     public RedirectView connect(@RequestParam String shop,
-    @RequestParam Long userId) {
+    @RequestParam(required = false) Long userId) {
 
         validateShop(shop);
+
+        // If no userId provided, redirect to login
+        if (userId == null) {
+            return new RedirectView(frontendUrl + "/login?redirect=/integrations/shopify/connect?shop=" + shop);
+        }
 
         String state = userId.toString();
 
