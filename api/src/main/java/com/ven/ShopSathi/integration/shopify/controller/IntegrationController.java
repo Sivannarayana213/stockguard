@@ -10,7 +10,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/integrations/shopify")
