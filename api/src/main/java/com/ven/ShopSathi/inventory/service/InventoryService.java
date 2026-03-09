@@ -76,4 +76,14 @@ public class InventoryService {
         productRepository.save(product); // stock updated automatically
     }
 
+    public void handleInventoryWebhook(String payload) {
+    // Logic to parse the Shopify JSON payload and update your local database
+    // Example:
+    // JSONObject json = new JSONObject(payload);
+    // Long shopifyId = json.getLong("id");
+    // int newQty = json.getJSONArray("variants").getJSONObject(0).getInt("inventory_quantity");
+    // updateLocalStock(shopifyId, newQty);
+    
+    System.out.println("Received Webhook Payload: " + payload);
+}
 }
